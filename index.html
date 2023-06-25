@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/scss/style.scss" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -56,17 +55,64 @@
     <header>
       <h1 class="title">Tic-Tac-Toe</h1>
     </header>
-    <ul class="board">
-      <li class="field fa-solid" data-row="0" data-column="0"></li>
-      <li class="field fa-solid" data-row="0" data-column="1"></li>
-      <li class="field fa-solid" data-row="0" data-column="2"></li>
-      <li class="field fa-solid" data-row="1" data-column="0"></li>
-      <li class="field fa-solid" data-row="1" data-column="1"></li>
-      <li class="field fa-solid" data-row="1" data-column="2"></li>
-      <li class="field fa-solid" data-row="2" data-column="0"></li>
-      <li class="field fa-solid" data-row="2" data-column="1"></li>
-      <li class="field fa-solid" data-row="2" data-column="2"></li>
+    <ul class="board" data-game="board">
+      <li
+        class="field fa-solid"
+        data-row="0"
+        data-column="0"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="0"
+        data-column="1"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="0"
+        data-column="2"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="1"
+        data-column="0"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="1"
+        data-column="1"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="1"
+        data-column="2"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="2"
+        data-column="0"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="2"
+        data-column="1"
+        data-game="field"
+      ></li>
+      <li
+        class="field fa-solid"
+        data-row="2"
+        data-column="2"
+        data-game="field"
+      ></li>
+      <li class="winner-container" data-game="winner-container"></li>
     </ul>
+    <button class="button" data-game="play-again">Play again!</button>
     <footer class="footer">
       Made with <span class="heart" title="Love"></span> by psplawski.dev.
     </footer>

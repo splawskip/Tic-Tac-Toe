@@ -24,4 +24,4 @@ jobs:
           target_branch: gh-pages
           build_dir: dist
         env:
-            GITHUB_TOKEN: ${{ secrets.TIC-TAC-TOE_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.TIC_TAC_TOE_TOKEN }}

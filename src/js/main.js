@@ -153,6 +153,7 @@ const Game = {
     } else if (player2Won) {
       Game.winner = Game.player2;
     }
+    // If we got a winner run win handler.
     if (Game.winner) {
       Game.handleWin();
     }

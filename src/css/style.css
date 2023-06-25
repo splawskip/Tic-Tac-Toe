@@ -31,22 +31,54 @@
   }
 }
 
-body {
+.body {
   display: grid;
+  gap: 1.75rem;
   place-items: center;
   min-height: 100vh;
   padding: .5rem;
 }
 
+.fa-circle {
+  font-size: 3rem;
+}
+
+.fa-xmark {
+  font-size: 4rem;
+}
+
 .header {
   display: flex;
   flex-flow: column nowrap;
+  gap: .5rem;
   align-items: center;
   justify-content: center;
 }
 
 .title {
   font-size: 3rem;
+  font-weight: 700;
+  color: var(--clr-blue);
+  text-align: center;
+}
+
+.score-board {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.score-board__score {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--clr-blue);
+}
+
+.player-note {
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--clr-blue);
 }
@@ -63,7 +95,7 @@ body {
   border: .5rem solid var(--clr-silver);
 }
 
-.field {
+.board__field {
   display:flex;
   flex-direction: column;
   align-items:center;
@@ -74,7 +106,17 @@ body {
   background-color: var(--clr-white);
 }
 
-.winner-container {
+.field.fa-circle {
+  color: var(--clr-blue);
+  background-color: var(--clr-white);
+}
+
+.field.fa-xmark {
+  color: var(--clr-white);
+  background-color: var(--clr-blue);
+}
+
+.board__winner-container {
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -117,7 +159,7 @@ body {
   opacity: 1;
 }
 
-.players {
+.winner-container__players {
   display: flex;
   flex-direction: row;
   gap: .5rem;
@@ -125,26 +167,8 @@ body {
   justify-content: center;
 }
 
-.result {
+.winner-container__result {
   font-size: 1.5rem;
-}
-
-.fa-circle {
-  font-size: 3rem;
-}
-
-.fa-xmark {
-  font-size: 4rem;
-}
-
-.field.fa-circle {
-  color: var(--clr-blue);
-  background-color: var(--clr-white);
-}
-
-.field.fa-xmark {
-  color: var(--clr-white);
-  background-color: var(--clr-blue);
 }
 
 .button {
@@ -163,7 +187,7 @@ body {
   transition-property: opacity, border-color, background-color, color;
 }
 
-.button.active {
+.button--active {
   pointer-events: all;
   opacity: 1;
 }

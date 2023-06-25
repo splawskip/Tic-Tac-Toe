@@ -5,12 +5,24 @@ const Game = {
   /**
    * Object that holds references to various DOM elements used by the app.
    *
+   * @type {object}
+   *
+   * @property {Element} circleScore - The element representing the circle's score.
+   * @property {Element} drawScore - The element representing the draw score.
+   * @property {Element} crossScore - The element representing the cross's score.
+   * @property {Element} currentPlayer - The element representing the current player.
    * @property {NodeList} fields - The list of game field elements.
+   * @property {Element} winnerContainer - The element representing the winner container.
+   * @property {Element} playAgainButton - The element representing the play again button.
    */
   $: {
+    circleScore: document.querySelector('[data-game="circle-score"]'),
+    drawScore: document.querySelector('[data-game="draw-score"]'),
+    crossScore: document.querySelector('[data-game="cross-score"]'),
+    currentPlayer: document.querySelector('[data-game="current-player"]'),
     fields: document.querySelectorAll('[data-game="field"]'),
     winnerContainer: document.querySelector('[data-game="winner-container"]'),
-    playAgainButton: document.querySelector('[data-game="play-again"]'),
+    playAgainButton: document.querySelector('[data-game="play-again-button"]'),
   },
   /**
    * JSConfetti instance.
@@ -18,6 +30,24 @@ const Game = {
    * @typedef {null|JSConfetti} JSConfetti
    */
   JSConfetti: null,
+  /**
+   * Circle player score.
+   *
+   * @type {number}
+   */
+  circleScore: 0,
+  /**
+   * Draw score.
+   *
+   * @type {number}
+   */
+  drawScore: 0,
+  /**
+   * Cross player score.
+   *
+   * @type {number}
+   */
+  crossScore: 0,
   /**
    * Winner.
    *
@@ -72,7 +102,8 @@ const Game = {
    * @returns {void}
    */
   handleReset() {
-    Game.$.playAgainButton.classList.remove('active');
+    // Hide play again button.
+    Game.$.playAgainButton.classList.remove('button--active');
     // Remove players signs from the fields.
     Game.$.fields.forEach((field) => {
       // Get as classes as array.
@@ -107,11 +138,11 @@ const Game = {
     Game.$.winnerContainer.classList.add('draw');
     // Sprinkle winner container with draw data.
     Game.$.winnerContainer.innerHTML = `
-        <div class="players">
+        <div class="winner-container__players players">
           <i class="fa-solid ${Game.player1}"></i>
           <i class="fa-solid ${Game.player2}"></i>
         </div>
-        <p class="result">Draw!</p>
+        <p class="winner-container__result result">Draw!</p>
     `;
     // Throw boring confetti!
     Game.JSConfetti.addConfetti({
@@ -119,7 +150,7 @@ const Game = {
       confettiNumber: 35,
     });
     // Show play again button.
-    Game.$.playAgainButton.classList.add('active');
+    Game.$.playAgainButton.classList.add('button--active');
   },
   /**
    * Handles the win event in the game.
@@ -142,7 +173,7 @@ const Game = {
       confettiNumber: 35,
     });
     // Show play again button.
-    Game.$.playAgainButton.classList.add('active');
+    Game.$.playAgainButton.classList.add('button--active');
   },
   /**
    * Checks if any player has won the game.
@@ -171,11 +202,19 @@ const Game = {
     const player2Won = Game.combinations.some((combination) =>
       combination.every((index) => moves[Game.player2].includes(index))
     );
-    // Resolve winner.
+    // Check if player 1 won.
     if (player1won) {
+      // Assign winner.
       Game.winner = Game.player1;
-    } else if (player2Won) {
+      // Update score board.
+      Game.$.circleScore.textContent = Game.circleScore + 1;
+    }
+    // Check if player 2 won.
+    if (player2Won) {
+      // Assign winner.
       Game.winner = Game.player2;
+      // Update score board.
+      Game.$.crossScore.textContent = Game.crossScore + 1;
     }
     // Check if we we are dealing with a win.
     if (Game.winner) {
@@ -184,6 +223,8 @@ const Game = {
     // Check if we are dealing with a draw.
     if (Game.boardState.flat().every((field) => field !== '') && !Game.winner) {
       Game.handleDraw();
+      // Update score board.
+      Game.$.drawScore.textContent = Game.drawScore + 1;
     }
   },
   /**
@@ -193,16 +234,20 @@ const Game = {
    * @returns {void}
    */
   handlePick(event) {
+    // Get current player.
+    const currentPlayer = Game.round % 2 === 0;
     // Get field row and col.
     const { row, column } = event.target.dataset;
-    // Get current player.
-    const currentPlayer = Game.round % 2 === 0 ? Game.player2 : Game.player1;
+    // Get current player sign.
+    const currentPlayerSign = currentPlayer ? Game.player2 : Game.player1;
     // If selected field is already filled, bail.
     if (Game.boardState[row][column] !== '') return;
+    // Update player turn.
+    Game.$.currentPlayer.textContent = currentPlayer ? 'circle' : 'cross';
     // Mark picked field with current user avatar.
-    event.target.classList.add(currentPlayer);
+    event.target.classList.add(currentPlayerSign);
     // Update board state.
-    Game.boardState[row][column] = currentPlayer;
+    Game.boardState[row][column] = currentPlayerSign;
     // Bump the round variable.
     Game.round += 1;
     // Check if someone won.

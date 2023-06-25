@@ -1,5 +1,4 @@
 :root {
-  --clr-yellow: hsl(47deg 100% 50%);
   --clr-white: hsl(0deg 0% 100%);
   --clr-black: hsl(0deg 0% 0%);
   --clr-heart: hsl(0deg 100% 50%);
@@ -110,20 +109,40 @@ body {
   opacity: 1;
 }
 
-.winner-sign {
-  font-size: 3rem;
+.winner-container.draw {
+  color: var(--clr-white);
+  pointer-events: all;
+  cursor: auto;
+  background-color: var(--clr-black);
+  opacity: 1;
 }
 
-.winner-name {
-  font-size:1.5rem;
+.players {
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.result {
+  font-size: 1.5rem;
 }
 
 .fa-circle {
+  font-size: 3rem;
+}
+
+.fa-xmark {
+  font-size: 4rem;
+}
+
+.field.fa-circle {
   color: var(--clr-blue);
   background-color: var(--clr-white);
 }
 
-.fa-xmark {
+.field.fa-xmark {
   color: var(--clr-white);
   background-color: var(--clr-blue);
 }

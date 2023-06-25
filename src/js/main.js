@@ -91,11 +91,35 @@ const Game = {
       ['', '', ''],
     ];
     // Remove winner based styles.
-    Game.$.winnerContainer.classList.remove(`${Game.winner}-winner`);
+    Game.$.winnerContainer.classList.remove(`${Game.winner}-winner`, 'draw');
     // Reset body of winner container.
     Game.$.winnerContainer.innerHTML = ``;
     // Reset winner.
     Game.winner = null;
+  },
+  /**
+   * Handles the draw event in the game.
+   *
+   * @returns {void}
+   */
+  handleDraw() {
+    // Apply draw styles to the winner container.
+    Game.$.winnerContainer.classList.add('draw');
+    // Sprinkle winner container with draw data.
+    Game.$.winnerContainer.innerHTML = `
+        <div class="players">
+          <i class="fa-solid ${Game.player1}"></i>
+          <i class="fa-solid ${Game.player2}"></i>
+        </div>
+        <p class="result">Draw!</p>
+    `;
+    // Throw boring confetti!
+    Game.JSConfetti.addConfetti({
+      emojis: ['🙌', '🥱', '🤝'],
+      confettiNumber: 35,
+    });
+    // Show play again button.
+    Game.$.playAgainButton.classList.add('active');
   },
   /**
    * Handles the win event in the game.
@@ -109,15 +133,15 @@ const Game = {
     Game.$.winnerContainer.classList.add(`${Game.winner}-winner`);
     // Sprinkle winner container with data about winner.
     Game.$.winnerContainer.innerHTML = `
-      <i class="winner-sign fa-solid ${Game.winner}"></i>
-      <p class="winner-name">Circle wins!</p>
+      <i class="fa-solid ${Game.winner}"></i>
+      <p class="result">${didPlayerTwoWon ? 'Cross' : 'Circle'} wins!</p>
     `;
     // Throw confetti!
     Game.JSConfetti.addConfetti({
       emojis: [didPlayerTwoWon ? '❌' : '⭕️', '🎉', '🎊', '🍬', '🥳', '🏆'],
-      confettiNumber: 50,
+      confettiNumber: 35,
     });
-    // show play again button.
+    // Show play again button.
     Game.$.playAgainButton.classList.add('active');
   },
   /**
@@ -153,9 +177,13 @@ const Game = {
     } else if (player2Won) {
       Game.winner = Game.player2;
     }
-    // If we got a winner run win handler.
+    // Check if we we are dealing with a win.
     if (Game.winner) {
       Game.handleWin();
+    }
+    // Check if we are dealing with a draw.
+    if (Game.boardState.flat().every((field) => field !== '') && !Game.winner) {
+      Game.handleDraw();
     }
   },
   /**

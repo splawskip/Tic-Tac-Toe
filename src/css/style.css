@@ -1,0 +1,131 @@
+:root {
+  --clr-yellow: hsl(47, 100%, 50%);
+  --clr-white: hsl(0, 0%, 100%);
+  --clr-black: hsl(0, 0%, 0%);
+  --clr-heart: hsl(0deg 100% 50%);
+  --clr-blue: hsl(217, 93%, 72%);
+  --clr-silver: hsl(0, 0%, 86%);
+  font-family: 'Lato', sans-serif;
+  text-rendering: optimizelegibility;
+  scroll-behavior: smooth;
+  color: var(--clr-black);
+  background-color: var(--clr-silver);
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1) rotate(45deg);
+  }
+
+  50% {
+    transform: scale(1.3) rotate(45deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--clr-blue);
+}
+
+.board {
+  width: 300px;
+  height: 300px;
+  background-color: var(--clr-silver);
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap:.5rem;
+  border: .5rem solid var(--clr-silver);
+  cursor: pointer;
+}
+
+.field {
+  background-color: var(--clr-white);
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  font-size: 2.5rem;
+}
+
+.fa-circle {
+  background-color: var(--clr-white);
+  color: var(--clr-blue);
+}
+
+.fa-xmark {
+  color: var(--clr-white);
+  background-color: var(--clr-blue);
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  color: var(--clr-blue);
+  font-weight: 700;
+}
+
+.heart {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 20px;
+  color: transparent;
+  background: var(--clr-heart);
+  border-bottom-right-radius: 5px;
+  transform: rotate(45deg);
+  animation-name: pulse;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.heart::before {
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 20px;
+  height: 20px;
+  content: '';
+  background: var(--clr-heart);
+  border-radius: 50%;
+}
+
+.heart::after {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  content: '';
+  background: var(--clr-heart);
+  border-radius: 50%;
+}

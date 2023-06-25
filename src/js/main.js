@@ -1,3 +1,5 @@
+import JSConfetti from 'js-confetti';
+
 // Scaffold the game.
 const Game = {
   /**
@@ -6,8 +8,16 @@ const Game = {
    * @property {NodeList} fields - The list of game field elements.
    */
   $: {
-    fields: document.querySelectorAll('.field'),
+    fields: document.querySelectorAll('[data-game="field"]'),
+    winnerContainer: document.querySelector('[data-game="winner-container"]'),
+    playAgainButton: document.querySelector('[data-game="play-again"]'),
   },
+  /**
+   * JSConfetti instance.
+   *
+   * @typedef {null|JSConfetti} JSConfetti
+   */
+  JSConfetti: null,
   /**
    * Winner.
    *
@@ -57,11 +67,65 @@ const Game = {
     [2, 4, 6],
   ],
   /**
+   * Handles the reset event in the game.
+   *
+   * @returns {void}
+   */
+  handleReset() {
+    Game.$.playAgainButton.classList.remove('active');
+    // Remove players signs from the fields.
+    Game.$.fields.forEach((field) => {
+      // Get as classes as array.
+      const classList = Array.from(field.classList);
+      // Loop over classes and remove players signs.
+      classList.forEach((className) => {
+        if (className !== 'fa-solid' && className.startsWith('fa')) {
+          field.classList.remove(className);
+        }
+      });
+    });
+    // Reset board state.
+    Game.boardState = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ];
+    // Remove winner based styles.
+    Game.$.winnerContainer.classList.remove(`${Game.winner}-winner`);
+    // Reset body of winner container.
+    Game.$.winnerContainer.innerHTML = ``;
+    // Reset winner.
+    Game.winner = null;
+  },
+  /**
+   * Handles the win event in the game.
+   *
+   * @returns {void}
+   */
+  handleWin() {
+    // Get boolean helper that tells if player two won.
+    const didPlayerTwoWon = Game.winner === Game.player2;
+    // Apply styles to winner container based on the winner.
+    Game.$.winnerContainer.classList.add(`${Game.winner}-winner`);
+    // Sprinkle winner container with data about winner.
+    Game.$.winnerContainer.innerHTML = `
+      <i class="winner-sign fa-solid ${Game.winner}"></i>
+      <p class="winner-name">Circle wins!</p>
+    `;
+    // Throw confetti!
+    Game.JSConfetti.addConfetti({
+      emojis: [didPlayerTwoWon ? '❌' : '⭕️', '🎉', '🎊', '🍬', '🥳', '🏆'],
+      confettiNumber: 50,
+    });
+    // show play again button.
+    Game.$.playAgainButton.classList.add('active');
+  },
+  /**
    * Checks if any player has won the game.
    *
    * @returns {void}
    */
-  checkCombinations() {
+  handleCombinationsCheck() {
     // Get current board state in one dimmension.
     const flattenedBoardState = Game.boardState.flat();
     // Container for players moves.
@@ -85,9 +149,13 @@ const Game = {
     );
     // Resolve winner.
     if (player1won) {
-      Game.winner = 'Player 1';
+      Game.winner = Game.player1;
     } else if (player2Won) {
-      Game.winner = 'Player 2';
+      Game.winner = Game.player2;
+    }
+    // If we got a winner run win handler.
+    if (Game.winner) {
+      Game.handleWin();
     }
   },
   /**
@@ -96,7 +164,7 @@ const Game = {
    * @param {Event} event - The click event.
    * @returns {void}
    */
-  pick(event) {
+  handlePick(event) {
     // Get field row and col.
     const { row, column } = event.target.dataset;
     // Get current player.
@@ -110,7 +178,7 @@ const Game = {
     // Bump the round variable.
     Game.round += 1;
     // Check if someone won.
-    Game.checkCombinations();
+    Game.handleCombinationsCheck();
   },
   /**
    * Binds app events.
@@ -118,7 +186,16 @@ const Game = {
    * @returns {void}
    */
   bindEvents() {
-    Game.$.fields.forEach((field) => field.addEventListener('click', Game.pick));
+    Game.$.fields.forEach((field) => field.addEventListener('click', Game.handlePick));
+    Game.$.playAgainButton.addEventListener('click', Game.handleReset);
+  },
+  /**
+   * Sets the instances of other classes used by the app.
+   *
+   * @returns {void}
+   */
+  setInstances() {
+    Game.JSConfetti = new JSConfetti();
   },
   /**
    * Runs everything that should be invoked on app initialization.
@@ -126,8 +203,8 @@ const Game = {
    * @returns {void}
    */
   init() {
+    Game.setInstances();
     Game.bindEvents();
-    Game.winner = null;
   },
 };
 // Start the game.

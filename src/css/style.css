@@ -1,16 +1,18 @@
 :root {
-  --clr-yellow: hsl(47, 100%, 50%);
-  --clr-white: hsl(0, 0%, 100%);
-  --clr-black: hsl(0, 0%, 0%);
+  --clr-yellow: hsl(47deg 100% 50%);
+  --clr-white: hsl(0deg 0% 100%);
+  --clr-black: hsl(0deg 0% 0%);
   --clr-heart: hsl(0deg 100% 50%);
-  --clr-blue: hsl(217, 93%, 72%);
-  --clr-silver: hsl(0, 0%, 86%);
-  font-family: 'Lato', sans-serif;
-  text-rendering: optimizelegibility;
-  scroll-behavior: smooth;
+  --clr-blue: hsl(217deg 93% 72%);
+  --clr-silver: hsl(0deg 0% 86%);
+  --transition-swing: cubic-bezier(.25, .8, .5, 1);
+
+  overflow-x: hidden;
+  font-family: Lato, sans-serif;
   color: var(--clr-black);
   background-color: var(--clr-silver);
-  overflow-x: hidden;
+  text-rendering: optimizelegibility;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -34,14 +36,14 @@ body {
   display: grid;
   place-items: center;
   min-height: 100vh;
+  padding: .5rem;
 }
 
 .header {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-flow: column nowrap;
   align-items: center;
-  flex-wrap: nowrap;
+  justify-content: center;
 }
 
 .title {
@@ -51,30 +53,74 @@ body {
 }
 
 .board {
+  position: relative;
+  display:grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  gap:.5rem;
   width: 300px;
   height: 300px;
   background-color: var(--clr-silver);
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap:.5rem;
   border: .5rem solid var(--clr-silver);
-  cursor: pointer;
 }
 
 .field {
-  background-color: var(--clr-white);
   display:flex;
   flex-direction: column;
-  justify-content:center;
   align-items:center;
-  text-align:center;
+  justify-content:center;
   font-size: 2.5rem;
+  text-align:center;
+  cursor: pointer;
+  background-color: var(--clr-white);
+}
+
+.winner-container {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition-timing-function: var(--transition-swing);
+  transition-duration: .3s;
+  transition-property: opacity, background-color, color;
+}
+
+.winner-container.fa-circle-winner {
+  color: var(--clr-blue);
+  pointer-events: all;
+  cursor: auto;
+  background-color: var(--clr-white);
+  opacity: 1;
+}
+
+.winner-container.fa-xmark-winner {
+  color: var(--clr-white);
+  pointer-events: all;
+  cursor: auto;
+  background-color: var(--clr-blue);
+  opacity: 1;
+}
+
+.winner-sign {
+  font-size: 3rem;
+}
+
+.winner-name {
+  font-size:1.5rem;
 }
 
 .fa-circle {
-  background-color: var(--clr-white);
   color: var(--clr-blue);
+  background-color: var(--clr-white);
 }
 
 .fa-xmark {
@@ -82,14 +128,40 @@ body {
   background-color: var(--clr-blue);
 }
 
+.button {
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--clr-blue);
+  pointer-events: none;
+  cursor: pointer;
+  background-color: transparent;
+  border: 3px solid var(--clr-blue);
+  border-radius: 5%;
+  opacity: 0;
+  transition-timing-function: var(--transition-swing);
+  transition-duration: .35s;
+  transition-property: opacity, border-color, background-color, color;
+}
+
+.button.active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+.button:hover{
+  color: var(--clr-white);
+  background-color: var(--clr-blue);
+  border-color: var(--clr-white);
+}
+
 .footer {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-flow: row nowrap;
   align-items: center;
-  flex-wrap: nowrap;
-  color: var(--clr-blue);
+  justify-content: center;
   font-weight: 700;
+  color: var(--clr-blue);
 }
 
 .heart {

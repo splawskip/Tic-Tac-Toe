@@ -108,15 +108,15 @@ const Game = {
     // Sprinkle winner container with draw data.
     Game.$.winnerContainer.innerHTML = `
         <div class="players">
-          <i class="circle-sign fa-solid ${Game.player1}"></i>
-          <i class="cross-sign fa-solid ${Game.player2}"></i>
+          <i class="fa-solid ${Game.player1}"></i>
+          <i class="fa-solid ${Game.player2}"></i>
         </div>
         <p class="result">Draw!</p>
     `;
     // Throw boring confetti!
     Game.JSConfetti.addConfetti({
       emojis: ['🙌', '🥱', '🤝'],
-      confettiNumber: 50,
+      confettiNumber: 35,
     });
     // Show play again button.
     Game.$.playAgainButton.classList.add('active');
@@ -133,13 +133,13 @@ const Game = {
     Game.$.winnerContainer.classList.add(`${Game.winner}-winner`);
     // Sprinkle winner container with data about winner.
     Game.$.winnerContainer.innerHTML = `
-      <i class="winne-sign fa-solid ${Game.winner}"></i>
+      <i class="fa-solid ${Game.winner}"></i>
       <p class="result">${didPlayerTwoWon ? 'Cross' : 'Circle'} wins!</p>
     `;
     // Throw confetti!
     Game.JSConfetti.addConfetti({
       emojis: [didPlayerTwoWon ? '❌' : '⭕️', '🎉', '🎊', '🍬', '🥳', '🏆'],
-      confettiNumber: 50,
+      confettiNumber: 35,
     });
     // Show play again button.
     Game.$.playAgainButton.classList.add('active');

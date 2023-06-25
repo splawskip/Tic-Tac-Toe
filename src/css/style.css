@@ -1,5 +1,4 @@
 :root {
-  --clr-yellow: hsl(47deg 100% 50%);
   --clr-white: hsl(0deg 0% 100%);
   --clr-black: hsl(0deg 0% 0%);
   --clr-heart: hsl(0deg 100% 50%);
@@ -125,11 +124,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-.winner-sign {
-  font-size: 3rem;
-}
-
 
 .result {
   font-size: 1.5rem;
